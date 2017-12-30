@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <title>Marksix</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+    <style type="text/css">
+      .masthead {
+        min-height: 30rem;
+        position: relative;
+        display: table;
+        width: 100%;
+        height: auto;
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%), url("{{ url_for('static', filename='img/bg-masthead.jpg') }}");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover; }
+        .masthead h1 {
+          font-size: 3rem;
+          margin: 0;
+          padding: 0; }
+        @media (min-width: 992px) {
+          .masthead {
+            height: 100vh; }
+            .masthead h1 {
+              font-size: 3rem; } }
+        .loader {
+          visibility:hidden;
+          margin: 0 auto;
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 16px solid #3498db;
+          width: 60px;
+          height: 60px;
+          -webkit-animation: spin 2s linear infinite; /* Safari */
+          animation: spin 2s linear infinite;
+        }
+        
+        /* Safari */
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+    </style>
+  </head>
+
+  <body id="page-top">
+    
+
+    <!-- Header -->
+    <header class="masthead d-flex">
+      <div class="container text-center my-auto">
+        <h1 class="mb-1">Selected Numbers:</h1>
+        <h3 class="mb-5">
+          <em>{{msg}}</em>
+        </h3>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="/">Re Generate</a>
+        <br>
+        <br>
+        <h4 id="status">Latest draw date is: {{max_date}}</h4>
+        
+        <a id="update" class="btn btn-primary btn-xl js-scroll-trigger">Update Data</a>
+        <br>
+        <br>
+        <div class="loader"></div>
+      </div>
+      
+
+    </header>
+
+    
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.bootcss.com/jquery/1.10.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" language="JavaScript">
+      $(document).ready(function() {
+          $("#update").bind("click", function() {
+              $("#status").text("updating");
+              $(".loader").css("visibility", "visible");
+              $.ajax({
+                  type: "GET",
+                  url: "/update",
+                  success: function(returnData) {
+                      $("#status").text(returnData);
+                      $(".loader").css("visibility", "hidden");;
+                  },
+                  error: function(error) {
+                      alert('Error!')
+                  }
+              });
+          });
+      });
+      </script>
+
+
+  </body>
+
+</html>
